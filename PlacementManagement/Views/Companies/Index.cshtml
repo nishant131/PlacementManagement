@@ -1,0 +1,73 @@
+﻿@model IEnumerable<PlacementManagement.Models.Company>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@using (Html.BeginForm("Index", "Companies", FormMethod.Post))
+{
+    <div>
+        Search by Company Name:@Html.TextBox("searchCompany")
+        <input id="Submit1" type="submit" value="Search" />
+    </div>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("CompanyName", "Index", new { sort = ViewBag.CompSort })
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.location)
+        </th>
+        <th>
+            @Html.ActionLink("MinRequirements", "Index", new { sort = ViewBag.MinReqSort })
+        </th>
+        <th>
+            @Html.ActionLink("AvgPackage", "Index", new { sort = ViewBag.AvgPackSort })
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.email)
+        </th>
+        <th>
+            @Html.ActionLink("ArrivalDate", "Index", new { sort = ViewBag.ArrDateSort })
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.companyName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.location)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.minRequirements)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.avgPackage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.arrivalDate)
+        </td>
+    @if (Session["role"].ToString().Equals("Admin"))
+    {
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.companyId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.companyId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.companyId })
+        </td>
+    }
+    </tr>
+}
+
+</table>

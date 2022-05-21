@@ -1,0 +1,68 @@
+﻿@model PlacementManagement.Models.Placementstatus
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+@if (Session["role"].ToString().Equals("Admin"))
+{
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+}
+@using (Html.BeginForm("Index", "Placementstatuses", FormMethod.Post))
+{
+    <div>
+        Search by Company Name:@Html.TextBox("searchCompany")
+        <input id="Submit1" type="submit" value="Search" />
+    </div>
+    if (Session["role"].ToString().Equals("Admin"))
+    {
+
+    <div>
+        Search by Student Name:@Html.TextBox("searchStudent")
+        <input id="Submit1" type="submit" value="Search" />
+    </div>
+    }
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Company", "Index", new { sort = ViewBag.CompanySort })
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.student.Name)
+        </th>
+        <th>
+            @Html.ActionLink("Status","Index",new { sort = ViewBag.StatusSort })
+        </th>
+        <th></th>
+    </tr>
+
+@if (ViewBag.plac != null)
+{
+    foreach (var p in ViewData["plac"] as IList<PlacementManagement.Models.Placementstatus>)
+    {
+        <tr>
+            <td>
+                @p.company.companyName
+            </td>
+            <td>
+                @p.student.Name
+            </td>
+            <td>
+                @p.Status
+            </td>
+           @if (Session["role"].ToString().Equals("Admin"))
+           {
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { companyId = p.companyId, studentId = p.studentId }) |
+                @Html.ActionLink("Details", "Details", new { companyId = p.companyId, studentId = p.studentId }) |
+                @Html.ActionLink("Delete", "Delete", new { companyId = p.companyId, studentId = p.studentId })
+            </td>
+           }
+        </tr>
+    }
+}
+</table>
